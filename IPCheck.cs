@@ -54,18 +54,15 @@ namespace CloudflareProxyTrust
                 if (IP.Contains(remoteaddr))
                 {
                     trusted = true;
+                    // only if trusted we will forward the real IP in REMOTE_ADDR
+                    request.ServerVariables.Set("REMOTE_ADDR", cf_connecting_ip);
+                    // maybe you want the cloudflare IP? keep it here
+                    request.ServerVariables.Set("HTTP_X_ORIGINAL_ADDR", remoteaddr.ToString());
                 }
             }
 #if DEBUG
-            Debug.WriteLine("[CloudflareProxyTrust] trusted: " + trusted.ToString() + " remoteaddr:" + remoteaddr + " cfip:" + cf_connecting_ip + " url:" + request.RawUrl + " host:" + request.ServerVariables["HTTP_HOST"]);
+        Debug.WriteLine("[CloudflareProxyTrust] trusted: " + trusted.ToString() + " remoteaddr:" + remoteaddr + " cfip:" + cf_connecting_ip + " url:" + request.RawUrl + " host:" + request.ServerVariables["HTTP_HOST"]);
 #endif
-            // only if trusted we will forward the real IP in REMOTE_ADDR
-            if (trusted)
-            {
-                request.ServerVariables.Set("REMOTE_ADDR", cf_connecting_ip);
-                // maybe you want the cloudflare IP? keep it here
-                request.ServerVariables.Set("HTTP_X_ORIGINAL_ADDR", remoteaddr.ToString());
-            }
                 
 #if DEBUG
         Debug.WriteLine("[CloudflareProxyTrust] end module");
