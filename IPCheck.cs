@@ -34,11 +34,10 @@ namespace CloudflareProxyTrust
 
                 string.IsNullOrEmpty(request.ServerVariables["HTTP_CF_CONNECTING_IP"])
                 )
-
+            {
                 return;
-#if DEBUG
-            Debug.WriteLine("[CloudflareProxyTrust] start module");
-#endif
+            }
+
             // set current REMOTE_ADDR to variable and parse into IPAddress
             IPAddress remoteaddr = IPAddress.Parse(request.ServerVariables["REMOTE_ADDR"]);
             // read lines into string array
@@ -50,7 +49,11 @@ namespace CloudflareProxyTrust
             // now we have to parse ranges into addresses, and loop through them
             foreach (string cfip in cfips)
             {
-                var IP = IPAddressRange.Parse(cfip);
+                // Dont try to parse empty lines
+                if (string.IsNullOrWhiteSpace(cfip))
+                    continue;
+
+                IPAddressRange IP = IPAddressRange.Parse(cfip);
                 if (IP.Contains(remoteaddr))
                 {
                     trusted = true;
@@ -63,14 +66,7 @@ namespace CloudflareProxyTrust
 #if DEBUG
         Debug.WriteLine("[CloudflareProxyTrust] trusted: " + trusted.ToString() + " remoteaddr:" + remoteaddr + " cfip:" + cf_connecting_ip + " url:" + request.RawUrl + " host:" + request.ServerVariables["HTTP_HOST"]);
 #endif
-                
-#if DEBUG
-        Debug.WriteLine("[CloudflareProxyTrust] end module");
-#endif
-
         }
-
         #endregion
-
     }
 }
