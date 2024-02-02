@@ -29,7 +29,7 @@ namespace CloudflareProxyTrust
 
             var path = ConfigurationManager.AppSettings["CF_IP_Path"];
 
-            if ( // some checks
+            if ( // do we have a path and do we have a cf-connecting-ip header
                 string.IsNullOrEmpty(path) ||
 
                 string.IsNullOrEmpty(request.ServerVariables["HTTP_CF_CONNECTING_IP"])
@@ -53,8 +53,8 @@ namespace CloudflareProxyTrust
                 if (string.IsNullOrWhiteSpace(cfip))
                     continue;
 
-                IPAddressRange IP = IPAddressRange.Parse(cfip);
-                if (IP.Contains(remoteaddr))
+                IPAddressRange IPRange = IPAddressRange.Parse(cfip);
+                if (IPRange.Contains(remoteaddr))
                 {
                     trusted = true;
                     // only if trusted we will forward the real IP in REMOTE_ADDR
