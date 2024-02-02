@@ -15,11 +15,11 @@ This Module will simply replace the REMOTE_ADDR variable with HTTP_CF_CONNECTING
 - Download CF ips into a file, perhaps run this as a script once a day
 
 ```powershell
-$v4 = (iwr https://www.cloudflare.com/ips-v4).Content
+$v4 = irm https://www.cloudflare.com/ips-v4 -UseBasicParsing
 
-$v6 = (iwr https://www.cloudflare.com/ips-v6).Content
+$v6 = irm https://www.cloudflare.com/ips-v6 -UseBasicParsing
 
-Write-Output $v4 $v6 | Out-File CF_IPs.txt
+"$v4`n$v6" | Out-File -NoNewLine CF_IPs.txt
 ```
 
 - Copy `CloudflareProxyTrust.dll` and `IPAddressRange.dll` into your bin folder if being deployed to just one site or if deploying to entire webserver then youll need to add the dlls to the GAC and `%SystemDrive%\Windows\System32\inetsrv`
