@@ -8,8 +8,6 @@ This Module will simply replace the REMOTE_ADDR variable with HTTP_CF_CONNECTING
 
 ## Setup
 
-- Get NuGet package IPAddressRange
-
 - Build
 
 - Download CF ips into a file, perhaps run this as a script once a day
@@ -22,7 +20,7 @@ $v6 = irm https://www.cloudflare.com/ips-v6 -UseBasicParsing
 "$v4`n$v6" | Out-File -NoNewLine CF_IPs.txt
 ```
 
-- Copy `CloudflareProxyTrust.dll` and `IPAddressRange.dll` into your bin folder if being deployed to just one site or if deploying to entire webserver then youll need to add the dlls to the GAC and `%SystemDrive%\Windows\System32\inetsrv`
+- Copy `CloudflareProxyTrust.dll` into your bin folder if being deployed to just one site or if deploying to entire webserver then youll need to add the dll to the GAC and `%SystemDrive%\Windows\System32\inetsrv`
 
 ```xml
 <system.webServer>

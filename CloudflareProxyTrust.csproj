@@ -31,21 +31,33 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IPAddressRange, Version=5.0.0.0, Culture=neutral, PublicKeyToken=578e3c3d17e7c751, processorArchitecture=MSIL">
-      <HintPath>packages\IPAddressRange.5.0.0\lib\net452\IPAddressRange.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Web" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPAddressRange\Bits.cs" />
+    <Compile Include="IPAddressRange\Internals\IPAddressExtensions.cs" />
+    <Compile Include="IPAddressRange\Internals\IPv4RangeOperator.cs" />
+    <Compile Include="IPAddressRange\Internals\IPv6RangeOperator.cs" />
+    <Compile Include="IPAddressRange\Internals\IRangeOperator.cs" />
+    <Compile Include="IPAddressRange\Internals\RangeOperatorFactory.cs" />
+    <Compile Include="IPAddressRange\IPAddressRange.cs" />
     <Compile Include="IPCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="IPAddressRange\IPAddressRange.csproj" />
+    <None Include="IPAddressRange\IPAddressRange.nuspec" />
+    <None Include="IPAddressRange\IPAddressRange.ruleset" />
+    <None Include="IPAddressRange\IPAddressRange.Signed.nuspec" />
+    <None Include="IPAddressRange\key.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="IPAddressRange\.gitignore" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
