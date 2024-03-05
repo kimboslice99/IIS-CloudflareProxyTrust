@@ -16,10 +16,7 @@ namespace CloudflareProxyTrust
 
         #region IHttpModule implementation
 
-        public void Dispose()
-        {
-            _timer.Dispose();
-        }
+        public void Dispose() {  }
 
         public void Init(HttpApplication context)
         {
@@ -29,7 +26,8 @@ namespace CloudflareProxyTrust
 
             // Start a timer to reload cfips data periodically
             int reloadInterval = GetReloadInterval(); // Get the reload interval from configuration
-            _timer = new Timer(ReloadCfipsData, null, TimeSpan.Zero, TimeSpan.FromHours(reloadInterval));
+            if(_timer  == null)
+                _timer = new Timer(ReloadCfipsData, null, TimeSpan.Zero, TimeSpan.FromHours(reloadInterval));
         }
 
         public void Begin(Object source, EventArgs e)
