@@ -52,7 +52,7 @@
     <Compile Include="IPAddressRange\Internals\IRangeOperator.cs" />
     <Compile Include="IPAddressRange\Internals\RangeOperatorFactory.cs" />
     <Compile Include="IPAddressRange\IPAddressRange.cs" />
-    <Compile Include="IPCheck.cs" />
+    <Compile Include="CloudflareIpModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

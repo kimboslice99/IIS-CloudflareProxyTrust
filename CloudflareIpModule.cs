@@ -9,7 +9,7 @@ using System.Threading;
 
 namespace CloudflareProxyTrust
 {
-    public class IPCheck : IHttpModule
+    public class CloudflareIpModule : IHttpModule
     {
         private static string[] _cfips;
         private static Timer _timer;
@@ -37,26 +37,21 @@ namespace CloudflareProxyTrust
                 HttpApplication app = (HttpApplication)source;
                 HttpRequest request = app.Context.Request;
 
-                // Check if cfips data is loaded into memory
-                if (_cfips == null)
-                {
-                    // If not loaded, load it
+                if(_cfips == null)
                     LoadCfipsData();
-                }
 
+                // we may not be proxied, or the path may not be configured for this site
                 if (_cfips == null ||
                     string.IsNullOrEmpty(request.ServerVariables["HTTP_CF_CONNECTING_IP"]))
                 {
                     return;
                 }
 
-                // set current REMOTE_ADDR to variable and parse into IPAddress
                 IPAddress remoteaddr = IPAddress.Parse(request.ServerVariables["REMOTE_ADDR"]);
 
                 bool trusted = false;
                 string cf_connecting_ip = request.ServerVariables["HTTP_CF_CONNECTING_IP"];
 
-                // now we have to parse ranges into addresses, and loop through them
                 foreach (string cfip in _cfips)
                 {
                     // Dont try to parse empty lines
@@ -73,28 +68,26 @@ namespace CloudflareProxyTrust
                         request.ServerVariables.Set("HTTP_X_ORIGINAL_ADDR", remoteaddr.ToString());
                     }
                 }
+#if DEBUG
+                Debug.WriteLine($"[CloudflareProxyTrust]: trusted: {trusted.ToString()} remoteaddr: {remoteaddr} cfip: {cf_connecting_ip} url: {request.RawUrl} host: {request.ServerVariables["HTTP_HOST"]}");
+#endif
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("[CloudflareProxyTrust]: " + ex);
-            }
 #if DEBUG
-        Debug.WriteLine("[CloudflareProxyTrust] trusted: " + trusted.ToString() + " remoteaddr:" + remoteaddr + " cfip:" + cf_connecting_ip + " url:" + request.RawUrl + " host:" + request.ServerVariables["HTTP_HOST"]);
+                Debug.WriteLine("[CloudflareProxyTrust]: " + ex.Message);
 #endif
+            }
         }
 
         private static void LoadCfipsData()
         {
-            // Only load cfips data if it hasn't been loaded before
-            if (_cfips == null)
-            {
-                var path = ConfigurationManager.AppSettings["CF_IP_Path"];
+            var path = ConfigurationManager.AppSettings["CF_IP_Path"];
 
-                if (!string.IsNullOrEmpty(path))
-                {
-                    // Read lines into string array and store in cfips
-                    _cfips = File.ReadAllLines(path);
-                }
+            if (!string.IsNullOrEmpty(path))
+            {
+                // Read lines into string array and store in cfips
+                _cfips = File.ReadAllLines(path);
             }
         }
 

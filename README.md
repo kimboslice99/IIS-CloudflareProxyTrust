@@ -25,7 +25,7 @@ $v6 = irm https://www.cloudflare.com/ips-v6 -UseBasicParsing
 ```xml
 <system.webServer>
     <modules>
-        <add name="CloudflareProxyTrust" type="CloudflareProxyTrust.IPCheck, CloudflareProxyTrust, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7381665d8f939351" preCondition="runtimeVersionv4.0" />
+        <add name="CloudflareProxyTrust" type="CloudflareProxyTrust.CloudflareIpModule, CloudflareProxyTrust, Version=1.0.0.0, Culture=neutral, PublicKeyToken=7381665d8f939351" preCondition="runtimeVersionv4.0" />
     <modules>
 <system.webServer>
 ```
