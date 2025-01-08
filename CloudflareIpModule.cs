@@ -16,7 +16,19 @@ namespace CloudflareProxyTrust
 
         #region IHttpModule implementation
 
-        public void Dispose() {  }
+        public void Dispose()
+        {
+            if (_timer != null)
+            {
+                _timer.Dispose();
+                _timer = null;
+            }
+
+            if (_cfips != null)
+            {
+                _cfips = null;
+            }
+        }
 
         public void Init(HttpApplication context)
         {
@@ -48,9 +60,8 @@ namespace CloudflareProxyTrust
                 }
 
                 IPAddress remoteaddr = IPAddress.Parse(request.ServerVariables["REMOTE_ADDR"]);
-
-                bool trusted = false;
                 string cf_connecting_ip = request.ServerVariables["HTTP_CF_CONNECTING_IP"];
+                bool trusted = false;
 
                 foreach (string cfip in _cfips)
                 {
