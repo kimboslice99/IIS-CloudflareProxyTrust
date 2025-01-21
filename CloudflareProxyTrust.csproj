@@ -62,6 +62,7 @@
     <None Include="IPAddressRange\IPAddressRange.ruleset" />
     <None Include="IPAddressRange\IPAddressRange.Signed.nuspec" />
     <None Include="IPAddressRange\key.snk" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="IPAddressRange\.gitignore" />
