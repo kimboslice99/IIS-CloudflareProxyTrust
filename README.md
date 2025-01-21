@@ -12,7 +12,7 @@ Optionally you may configure this module to allow only connections through CF pr
 
 ## Setup
 
-- Build the Module
+- Build the Module or download the latest release.
 
 - Download Cloudflare IPs
    
