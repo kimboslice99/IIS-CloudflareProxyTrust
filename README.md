@@ -57,19 +57,19 @@ Note that for CF_AllowNonProxyRemote=false to function CF_DenyUntrusted must be 
 
 Scenario 1. (blocking mode)
 
-You have a site that is proxied, and it should be the only route a legitimate client takes
-Set CF_DenyUntrusted to true and CF_AllowNonProxyRemote to false. This will block all clients that arent coming through the CF proxy.
+- You have a site that is proxied, and it should be the only route a legitimate client takes
+- Set CF_DenyUntrusted to true and CF_AllowNonProxyRemote to false. This will block all clients that arent coming through the CF proxy.
 
 Scenario 2. (blocking mode)
 
-You have a site that is proxied but also has an unproxied name, so clients can utilize CF or not if chosen.
-You wish to block any request that comes with CF headers that is not a CF proxy IP (spoofing attempt).
-Set CF_DenyUntrusted to true and CF_AllowNonProxyRemote to true
+- You have a site that is proxied but also has an unproxied name, so clients can utilize CF or not if chosen.
+- You wish to block any request that comes with CF headers that is not a CF proxy IP (spoofing attempt).
+- Set CF_DenyUntrusted to true and CF_AllowNonProxyRemote to true
 
 Scenario 3. (default/silent/non-blocking mode)
 
-You have a site that is proxied and may have unproxied names.
-You would like to handle REMOTE_ADDR replacement silently, if it exists and is trusted.
-Set CF_DenyUntrusted to false and CF_AllowNonProxyRemote to true (these are the defaults)
+- You have a site that is proxied and may have unproxied names.
+- You would like to handle REMOTE_ADDR replacement silently, if it exists and is trusted.
+- Set CF_DenyUntrusted to false and CF_AllowNonProxyRemote to true (these are the defaults)
 
 Application setting key CF_DenyCode and CF_DenyDescription will allow you to customize the deny response from the default 400 Bad Request.
